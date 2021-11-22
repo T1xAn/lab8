@@ -6,8 +6,8 @@
 #include <stack> 
 #include <queue>
 using namespace std;
-int rad = 1000;
-int dum = 0;
+//int rad = 1000;
+//int dum = 0;
 void Google_search(int** a, int** dist, int size) {
 	queue <int> q;
 	int num;
@@ -28,7 +28,7 @@ void Google_search(int** a, int** dist, int size) {
 	}
 }
 
-void rad_dum_wasteland( int* ext, int size, int** distG ) {
+void rad_dum_wasteland( int* ext, int size, int** distG , int* rad, int* dum) {
 	for (int i = 0; i < size; i++)
 		for (int j = 0; j < size; j++) {
 			if (distG[i][j] > ext[i])
@@ -37,30 +37,30 @@ void rad_dum_wasteland( int* ext, int size, int** distG ) {
 
 	cout << endl << "Эксцентриситеты всех вершин" << endl;
 	for (int i = 0; i < size; i++) {
-		if (ext[i] == 1000)
+		if (ext[i] == 0)
 			cout << "  Вершина изолирована ";
 		else
 			cout << "  " << ext[i];
 	}
 	for (int i = 0; i < size; i++) {
-		if (ext[i] > dum)
-			dum = ext[i];
-		if (ext[i] < rad)
-			rad = ext[i];
+		if (ext[i] > *dum)
+			*dum = ext[i];
+		if (ext[i] < *rad && ext[i] != 0)
+			*rad = ext[i];
 	}
-	cout << endl << endl << "Радиус графа равен  " << rad;
-	cout << endl << endl << "Диаметр графа равен  " << dum;
+	cout << endl << endl << "Радиус графа равен  " << *rad;
+	cout << endl << endl << "Диаметр графа равен  " << *dum;
 }
 
-void best_wateland_survivalists( int* ext, int size) {
+void best_wateland_survivalists( int* ext, int size, int* rad, int* dum) {
 	cout << endl << " Подмножество центральных вершин:  ";
 	for (int i = 0; i < size; i++)
-		if (ext[i] == rad)
+		if (ext[i] == *rad)
 			cout << "  " << i;
 
 	cout << endl << " Подмножество переферийных вершин:  ";
 	for (int i = 0; i < size; i++)
-		if (ext[i] == dum)
+		if (ext[i] == *dum)
 			cout << "  " << i;
 }
 
@@ -96,6 +96,7 @@ void step_vrshi_search_v1(int size, int** arr) {
 }
 
 void main() {
+	
 	srand(time(0));
 	setlocale(LC_ALL, "Russian");
 	int size;
@@ -111,7 +112,7 @@ void main() {
 		arr[row][row] = 0;
 		for (int col = row + 1; col < size; col++) {
 			arr[row][col] = rand() % 100;
-			if (arr[row][col] < 70) {
+			if (arr[row][col] < 60) {
 				arr[row][col] = 0;
 				arr[col][row] = arr[row][col];
 			}
@@ -149,8 +150,10 @@ void main() {
 	for (int row = 0; row < size; row++)
 	{
 		for (int col = 0; col < size; col++) {
-			if(distG[row][col] == 1000)
-			cout << 0 << " ";
+			if (distG[row][col] == 1000) {
+				distG[row][col] = 0;
+				cout << 0 << " ";
+			}
 			else
 			cout << distG[row][col] << " ";
 		}
@@ -162,13 +165,15 @@ void main() {
 	for (int i = 0; i < size; i++)
 		ext[i] = 0;
 
-
-
-	rad_dum_wasteland( ext, size, distG);
+	int rad = 1000;
+	int dum = 0;
+	int* rad_s = &rad;
+	int* dum_s = &dum;
+	rad_dum_wasteland( ext, size, distG, rad_s, dum_s);
 
 	//////////////////////////////////////////////////////////////// num 1.2
 
-	best_wateland_survivalists( ext, size);
+	best_wateland_survivalists( ext, size,rad_s, dum_s);
 
 	//////////////////////////////////////////////////////////////// num 1.3
 	
