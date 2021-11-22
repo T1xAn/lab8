@@ -177,3 +177,164 @@ void main() {
 
 	system("pause");
 }
+
+/*#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <iostream>
+#include <stack> 
+#include <queue>
+using namespace std;
+
+int j = 0;
+int r = 0;
+int i = 0;
+int k = 0;
+
+void bfs(int** arr_inc, int num, int* dist, int size, int edge_count) {
+	queue <int> que;
+	dist[num] = 0;
+	que.push(num);
+	while (!que.empty()) {
+		num = que.front();
+		//printf("%d ", num);
+		que.pop();
+		for (int i = 0; i < edge_count; i++) {
+			if (arr_inc[num][i] > 0) {
+				for (int count = 0; count < size; count++) {
+					if (arr_inc[count][i] > 0 && dist[count] > dist[num] + arr_inc[count][i]) {
+						que.push(count);
+						dist[count] = dist[num] + arr_inc[count][i];
+					}
+				}
+			}
+		}
+	}
+}
+
+//void bfs(int current_vertex, int size, int edge_count, int** arr_inc, int* dist, int path_length) {
+//
+//	dist[current_vertex] = path_length;
+//
+//	int p;
+//
+//
+//
+//	for (i = k; i < size; i++)
+//	{
+//		j = r;
+//		if ((arr_inc[i][j] != 0) && (dist[i] > path_length + arr_inc[i][j]))
+//		{
+//			dist[i] = path_length;
+//			p = i;
+//			//cout << i << " ";
+//			for (j = 0; j < edge_count; j++)
+//			{
+//				i == p;
+//				if (arr_inc[i][j] != 0)
+//				{
+//					r = j;
+//					for (k = 0; k < size; k++)
+//					{
+//						j == r;
+//						if ((arr_inc[k][j] != 0) && (dist[k] > path_length + arr_inc[i][j]))
+//							bfs(i, size, edge_count, arr_inc, dist, path_length + arr_inc[i][j]);
+//					}
+//				}
+//			}
+//		}
+//	}
+//}
+
+
+int main() {
+	srand(time(0));
+	setlocale(LC_ALL, "Russian");
+
+	int size;
+
+	cout << "   ¬ведите размерность матрицы: ";
+	cin >> size;
+	cout << endl;
+
+	int** arr = new int* [size];
+	for (int count = 0; count < size; ++count)
+		arr[count] = new int[size];
+
+	for (int row = 0; row < size; row++) {
+		arr[row][row] = 0;
+		for (int col = row + 1; col < size; col++) {
+			arr[row][col] = rand() % 100;
+			arr[col][row] = arr[row][col];
+		}
+	}
+	cout << "   ";
+
+	for (int row = 0; row < size; row++)
+	{
+		for (int col = 0; col < size; col++) {
+			cout << arr[row][col] << " ";
+		}
+		cout << endl << "   ";
+	}
+	cout << endl;
+////////////////////////////////////////////////////////////////////////////////
+	int edge_count=0;
+	for (int row = 0; row < size; row++) {
+		for (int col = row + 1; col < size; col++) {
+			if (arr[row][col])
+				edge_count++;
+		}
+	}
+////////////////////////////////////////////////////////////////////////////////
+	int** arr_inc = new int* [size];
+	for (int count = 0; count < size; ++count) {
+		arr_inc[count] = new int[edge_count];
+		for (int col = 0; col < edge_count; col++)
+			arr_inc[count][col] = 0;
+	}
+
+	edge_count = 0;
+	for (int row = 0; row < size; row++) {
+		for (int col = row + 1; col < size; col++) {
+			if (arr[row][col]) {
+				arr_inc[row][edge_count] = arr[row][col];
+				arr_inc[col][edge_count] = arr[row][col];
+				edge_count++;
+			}
+		}
+	}
+	for (int row = 0; row < size; row++)
+	{
+		cout << endl << "   ";
+		for (int col = 0; col < edge_count; col++) {
+			cout << arr_inc[row][col] << "   ";
+		}
+	}
+
+	int* dist = new int[size];
+	int* ext = new int[size];
+	int max;
+
+	cout << endl;
+	for (int cunt = 0; cunt < size; ++cunt) {
+		for (int count = 0; count < size; ++count)
+			dist[count] = INT_MAX;
+		bfs(arr_inc, cunt, dist, size, edge_count);
+
+		if (dist[0] == INT_MAX)
+			dist[0] = 0;
+		max = dist[0];
+		for (int fuck = 0; fuck < size; ++fuck) {
+			if (dist[fuck] == INT_MAX)
+				dist[fuck] = 0;
+			//cout << " " << dist[fuck];
+			if(dist[fuck] > max)
+				max = dist[fuck];
+		}
+		ext[cunt] = max;
+		cout << max << " ";
+	}
+	cout << endl;
+}*/
