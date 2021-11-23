@@ -5,6 +5,7 @@
 #include <iostream>
 #include <stack> 
 #include <queue>
+#include <iomanip>
 using namespace std;
 int rad = 1000;
 int dum = 0;
@@ -35,12 +36,12 @@ void rad_dum_wasteland( int* ext, int size, int** distG ) {
 				ext[i] = distG[i][j];
 		}
 
-	cout << endl << "Эксцентриситеты всех вершин" << endl;
+	cout << endl << "   Эксцентриситеты всех вершин: " << endl;
 	for (int i = 0; i < size; i++) {
 		if (ext[i] == 1000)
-			cout << "  Вершина изолирована ";
+			cout << "   Вершина изолирована ";
 		else
-			cout << "  " << ext[i];
+			cout << "   " << ext[i];
 	}
 	for (int i = 0; i < size; i++) {
 		if (ext[i] > dum)
@@ -48,8 +49,8 @@ void rad_dum_wasteland( int* ext, int size, int** distG ) {
 		if (ext[i] < rad)
 			rad = ext[i];
 	}
-	cout << endl << endl << "Радиус графа равен  " << rad;
-	cout << endl << endl << "Диаметр графа равен  " << dum;
+	cout << endl << endl << "   Радиус графа равен:  " << rad;
+	cout << endl << "   Диаметр графа равен:  " << dum;
 }
 
 void rad_dum_wasteland_v2(int* ext, int size) {
@@ -59,20 +60,20 @@ void rad_dum_wasteland_v2(int* ext, int size) {
 		if (ext[i] < rad)
 			rad = ext[i];
 	}
-	cout << endl << endl << "Радиус графа равен  " << rad;
-	cout << endl << endl << "Диаметр графа равен  " << dum;
+	cout << endl << "   Радиус графа равен:  " << rad;
+	cout << endl << "   Диаметр графа равен:  " << dum;
 }
 
 void best_wateland_survivalists( int* ext, int size) {
-	cout << endl << " Подмножество центральных вершин:  ";
+	cout << endl << "   Подмножество центральных вершин: ";
 	for (int i = 0; i < size; i++)
 		if (ext[i] == rad)
-			cout << "  " << i;
+			cout << setw(2) << i;
 
-	cout << endl << " Подмножество переферийных вершин:  ";
+	cout << endl << "   Подмножество переферийных вершин: ";
 	for (int i = 0; i < size; i++)
 		if (ext[i] == dum)
-			cout << "  " << i;
+			cout << setw(2) << i;
 	cout << endl;
 }
 
@@ -88,20 +89,20 @@ void step_vrshi_search_v1(int size, int** arr) {
 				step[row]++
 				;
 		}
-	cout << endl << " Изолированные вершины:  ";
+	cout << endl << "   Изолированные вершины: ";
 	
 	for (int i = 0; i < size; i++)
 		if (step[i] == 0) {
-			cout << "  " << i;
+			cout << setw(2) << i;
 			iznum++;
 		}
 
-	cout << endl << " Концевые вершины:  ";
+	cout << endl << "   Концевые вершины: ";
 	for (int i = 0; i < size; i++)
 		if (step[i] == 1)
-			cout << "  " << i;
+			cout << setw(2) << i;
 
-	cout << endl << " Доминирующие вершины:  ";
+	cout << endl << "   Доминирующие вершины: ";
 	for (int i = 0; i < size; i++)
 		if (step[i] == size - 1 - iznum)
 			cout << "  " << i;
@@ -132,7 +133,7 @@ void main() {
 	setlocale(LC_ALL, "Russian");
 	int size;
 
-	cout << "   Введите размерность матрицы: " << " ";
+	cout << "   Введите размерность матрицы: ";
 	cin >> size;
 	cout << endl;
 
@@ -157,7 +158,7 @@ void main() {
 	for (int row = 0; row < size; row++)
 	{
 		for (int col = 0; col < size; col++) {
-			cout << arr[row][col] << " ";
+			cout << arr[row][col] << setw(3);
 		}
 		cout << endl << "   ";
 	}
@@ -176,25 +177,21 @@ void main() {
 
 	Google_search(arr, distG, size);
 
-
-
+	cout << "   ";
 	for (int row = 0; row < size; row++)
 	{
 		for (int col = 0; col < size; col++) {
 			if(distG[row][col] == 1000)
-			cout << 0 << " ";
+			cout << 0 << setw(3);
 			else
-			cout << distG[row][col] << " ";
+			cout << distG[row][col] << setw(3);
 		}
 		cout << endl << "   ";
 	}
-	cout << endl;
-	cout << endl;
+	cout << endl << endl;
 	auto ext = new int[size];
 	for (int i = 0; i < size; i++)
 		ext[i] = 0;
-
-
 
 	rad_dum_wasteland( ext, size, distG);
 
@@ -203,10 +200,8 @@ void main() {
 	best_wateland_survivalists( ext, size);
 
 	//////////////////////////////////////////////////////////////// num 1.3
-	
 
 	step_vrshi_search_v1(size, arr);
-
 
 	//////////////////////////////////////////////////////////////////////////////////
 
@@ -248,7 +243,7 @@ void main() {
 	int* ext_s = new int[size];
 	int max;
 
-	cout << endl << endl << "Эксцентриситеты вершин\n\n";
+	cout << endl << endl << "   Эксцентриситеты вершин: " << endl << "   ";
 	for (int cunt = 0; cunt < size; ++cunt) {
 		for (int count = 0; count < size; ++count)
 			dist[count] = INT_MAX;
@@ -264,13 +259,11 @@ void main() {
 				max = dist[fuck];
 		}
 		ext_s[cunt] = max;
-		cout << max << " ";
+		cout << max << "  ";
 	}
 	cout << endl;
 
 	rad_dum_wasteland_v2(ext_s, size);
-
-	
 
 	best_wateland_survivalists(ext_s, size);
 
